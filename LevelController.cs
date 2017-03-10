@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,7 +10,6 @@ public class LevelController : MonoBehaviour {
     private void Awake()
     {
         _makeInstance();
-        if (ScoreController.instance != null) ScoreController.instance.thisIsNewLevel = true;
     }
     // Update is called once per frame
     void Update () {
@@ -45,7 +44,7 @@ public class LevelController : MonoBehaviour {
 
     public int _checkendgame()
     /* m = 0 <=> thua
-     * m = 1 <=> thắng
+     * m = 1 <=> th?ng
      */
     {
         int i, j;

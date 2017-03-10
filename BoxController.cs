@@ -36,10 +36,10 @@ public class BoxController : MonoBehaviour
 				Vector2 delta = end - begin;
 				if (Mathf.Abs (delta.x) > minDistance && Mathf.Abs (delta.x) > Mathf.Abs (delta.y)) {
 					status = (delta.x > 0) ? 1 : 2;
-				}
+                }
 				if (Mathf.Abs (delta.y) > minDistance && Mathf.Abs (delta.x) < Mathf.Abs (delta.y)) {
 					status = (delta.y > 0) ? 3 : 4;
-				}
+                }
 			}
 		}
 	}
