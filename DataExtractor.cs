@@ -12,7 +12,7 @@ public class DataExtractor : MonoBehaviour {
 
 	public int[,] map = new int [4, 4];     // Cái mảng này này ông nhõi 
 
-	public int[] highScoreBoard = new int[3];
+	public int[] highScoreBoard = new int[3];		//Mang highScore
 
     public int x = 0, y = 0, max = 0;    // Toa do ban dau cua con tro va gia tri MAX
 
@@ -49,7 +49,7 @@ public class DataExtractor : MonoBehaviour {
             }
         }
     }
-	public void InitHighScore()
+	public void InitHighScore()		// Ham doc gia tri cho mang highScore
 	{
 		int i;
 		string jsonHighScore = Resources.Load<TextAsset> ("highScore").text;
@@ -59,7 +59,7 @@ public class DataExtractor : MonoBehaviour {
 			highScoreBoard [i] = Convert.ToInt32 (highScoreData ["highScore" + i]);
 		}
 	}
-	public void PushHighScore(int[] arr)
+	public void PushHighScore(int[] arr)		// Nap mang highScore moi vao
 	{
 		Dictionary<string, int> data = new Dictionary<string, int>()
 		{
