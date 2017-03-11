@@ -12,7 +12,7 @@ public class MapMaker : MonoBehaviour {
 
     public int countLevel = 1;
     public static MapMaker instance;
-    private bool isMoving;
+    private bool isMoving,isChecked;
 	[SerializeField]
 	private GameObject pointer;
 
@@ -46,15 +46,18 @@ public class MapMaker : MonoBehaviour {
 			_BuildMap (map);
 		}
         _makeInstance();
-
+        if (HighScore.instance != null)
+        {
+            HighScore.instance._GetHighScore();
+        }
 		Application.targetFrameRate = 30;		//Co dinh FPS bang 30
-		QualitySettings.vSyncCount = 2;
 
     }
 
 	// Use this for initialization
 	void Start () {
         isMoving = false;
+        isChecked = false;
 	}
 	// Update is called once per frame
 	void Update () {
@@ -65,7 +68,7 @@ public class MapMaker : MonoBehaviour {
         {
             levelPassedPanel.SetActive(true);
             Time.timeScale = 0;
-
+     
             countLevel += 1;
             DataExtractor.instance._ReadJSON(countLevel);
             x = DataExtractor.instance.x;
@@ -76,10 +79,11 @@ public class MapMaker : MonoBehaviour {
             _BuildMap(map);
         }
 
-        if (ScoreController.instance != null)
-           if (ScoreController.instance.stepRemaining == 0)
+        if (ScoreController.instance != null && ScoreController.instance.stepRemaining == 0 && isChecked == false)
            {
+               isChecked = true;
                gameOverPanel.SetActive(true);
+               HighScore.instance._PushHighScore(countLevel);
                Time.timeScale = 0;
            }
     }
@@ -88,8 +92,6 @@ public class MapMaker : MonoBehaviour {
     {
         if (instance == null) instance = this;
     }
-
-
 
     void _MoveBox(int status)
     {

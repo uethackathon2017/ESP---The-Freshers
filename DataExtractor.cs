@@ -12,8 +12,6 @@ public class DataExtractor : MonoBehaviour {
 
 	public int[,] map = new int [4, 4];     // Cái mảng này này ông nhõi 
 
-	public int[] highScoreBoard = new int[3];		//Mang highScore
-
     public int x = 0, y = 0, max = 0;    // Toa do ban dau cua con tro va gia tri MAX
 
 	void Awake ()
@@ -21,11 +19,6 @@ public class DataExtractor : MonoBehaviour {
 		if (instance == null)
 			instance = this;
 	}
-    private void Update()
-    {
-       
-    }
-
     public void _ReadJSON(int level)        //Truyen vao level va doc ra du lieu cua level do
     {
         int i, j;
@@ -49,25 +42,4 @@ public class DataExtractor : MonoBehaviour {
             }
         }
     }
-	public void InitHighScore()		// Ham doc gia tri cho mang highScore
-	{
-		int i;
-		string jsonHighScore = Resources.Load<TextAsset> ("highScore").text;
-		var highScoreData = Json.Deserialize (jsonHighScore) as Dictionary<string, object>;
-		for (i = 0; i < 3; i++) 
-		{
-			highScoreBoard [i] = Convert.ToInt32 (highScoreData ["highScore" + i]);
-		}
-	}
-	public void PushHighScore(int[] arr)		// Nap mang highScore moi vao
-	{
-		Dictionary<string, int> data = new Dictionary<string, int>()
-		{
-			{"highScore1",arr[0]},
-			{"highScore2",arr[1]},
-			{"highScore3",arr[2]}
-		};
-		var jsonFile = Json.Serialize (data);
-		File.WriteAllText ("highScore.json", jsonFile);
-	}
 }

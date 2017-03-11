@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour {
 
@@ -13,10 +14,11 @@ public class MainMenuController : MonoBehaviour {
     public int stepRemaining;
 
     [SerializeField]
-    private GameObject mainPanel,instructionPanel;
+    private GameObject mainPanel,instructionPanel,highScorePanel;
 
 
-
+    [SerializeField]
+    private Text best, second, third;
 
     private void Awake()
     {
@@ -44,6 +46,8 @@ public class MainMenuController : MonoBehaviour {
     public void _leaderBoardButton()
     {
         mainPanel.SetActive(false);
+        _ShowLeaderboard();
+        highScorePanel.SetActive(true);
     }
 
     public void _instructionButton()
@@ -56,5 +60,19 @@ public class MainMenuController : MonoBehaviour {
     {
         mainPanel.SetActive(true);
         instructionPanel.SetActive(false);
+    }
+    public void _BackButtonLeaderboard()
+    {
+        mainPanel.SetActive(true);
+        highScorePanel.SetActive(false);
+    }
+    public void _ShowLeaderboard() 
+    {
+        if (HighScore.instance != null)
+        {
+            best.text = "" + HighScore.instance.highScore[0];
+            second.text = "" + HighScore.instance.highScore[1];
+            third.text = "" + HighScore.instance.highScore[2];
+        }
     }
 }
