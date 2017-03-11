@@ -8,7 +8,7 @@ public class MapMaker : MonoBehaviour {
     [SerializeField]
     private AudioSource audioSource;
     [SerializeField]
-    private AudioClip swipeClip;
+    private AudioClip swipeClip, passLevelClip, gameOverClip;
 
     public int countLevel = 1;
     public static MapMaker instance;
@@ -28,9 +28,11 @@ public class MapMaker : MonoBehaviour {
 
 	public List<GameObject> row = new List<GameObject> ();
 
-    public Text levelPassedText;
+    public Text levelPassedText, scoreText;
 
     public GameObject gameOverPanel;
+
+    bool gameOver = true;
 
 	void Awake(){
 		if (DataExtractor.instance != null) {
@@ -68,6 +70,7 @@ public class MapMaker : MonoBehaviour {
         {
             levelPassedPanel.SetActive(true);
             Time.timeScale = 0;
+            audioSource.PlayOneShot(passLevelClip);
      
             countLevel += 1;
             DataExtractor.instance._ReadJSON(countLevel);
@@ -80,11 +83,14 @@ public class MapMaker : MonoBehaviour {
         }
 
         if (ScoreController.instance != null && ScoreController.instance.stepRemaining == 0 && isChecked == false)
-           {
-               isChecked = true;
-               gameOverPanel.SetActive(true);
-               HighScore.instance._PushHighScore(countLevel);
-           }
+        {
+            isChecked = true;
+            if (gameOver) audioSource.PlayOneShot(gameOverClip);
+            gameOver = false;
+            gameOverPanel.SetActive(true);
+            scoreText.text = "Score: " + (countLevel - 1);
+            HighScore.instance._PushHighScore(countLevel);
+        }
     }
 
     void _makeInstance()
