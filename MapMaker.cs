@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DentedPixel;
-using System;
 public class MapMaker : MonoBehaviour {
+
+    [SerializeField]
+    private AudioSource audioSource;
+    [SerializeField]
+    private AudioClip swipeClip;
 
     public int countLevel = 1;
     public static MapMaker instance;
@@ -28,11 +32,6 @@ public class MapMaker : MonoBehaviour {
 
     public GameObject gameOverPanel;
 
-    bool case1 = false;
-
-
-    
-
 	void Awake(){
 		if (DataExtractor.instance != null) {
 			DataExtractor.instance._ReadJSON (countLevel);
@@ -47,6 +46,8 @@ public class MapMaker : MonoBehaviour {
 			_BuildMap (map);
 		}
         _makeInstance();
+
+		Application.targetFrameRate = 30;		//Co dinh FPS bang 30
 
     }
 
@@ -106,6 +107,7 @@ public class MapMaker : MonoBehaviour {
                                 isMoving = false;
                                 y++;
                                 _ChangeNumber(x, y);
+                                audioSource.PlayOneShot(swipeClip);
                             });// nho doan nay
 
                         }
@@ -124,6 +126,7 @@ public class MapMaker : MonoBehaviour {
                                 isMoving = false;
                                 y--;
                                 _ChangeNumber(x, y);
+                                audioSource.PlayOneShot(swipeClip);
                             });// nho doan nay
                         }
                     }
@@ -131,6 +134,7 @@ public class MapMaker : MonoBehaviour {
                 }
             case 3:
                 {
+                    if (x>0)
                     if (!isMoving)
                     {
                         isMoving = true;
@@ -139,12 +143,14 @@ public class MapMaker : MonoBehaviour {
                             isMoving = false;
                             x--;
                             _ChangeNumber(x, y);
+                            audioSource.PlayOneShot(swipeClip);
                         });// nho doan nay
                     }
                     break;
                 }
             case 4:
                 {
+                    if(x<3)
                     if (!isMoving)
                     {
                         isMoving = true;
@@ -153,6 +159,7 @@ public class MapMaker : MonoBehaviour {
                             isMoving = false;
                             x++; ;
                             _ChangeNumber(x, y);
+                            audioSource.PlayOneShot(swipeClip);
                         });// nho doan nay
                     }
                     break;

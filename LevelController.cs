@@ -6,6 +6,9 @@ public class LevelController : MonoBehaviour {
 
     public static LevelController instance;
 
+    [SerializeField]
+    AudioClip passLevelClip;
+
     // Use this for initialization
     private void Awake()
     {
