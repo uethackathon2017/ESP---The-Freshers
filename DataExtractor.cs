@@ -14,6 +14,8 @@ public class DataExtractor : MonoBehaviour {
 
     public int x = 0, y = 0, max = 0;    // Toa do ban dau cua con tro va gia tri MAX
 
+	public double limit = 0.0f;
+
 	void Awake ()
     {
 		if (instance == null)
@@ -28,6 +30,7 @@ public class DataExtractor : MonoBehaviour {
 
         x = Convert.ToInt32(jsonData["xCor"]);      //Doc toa do x va y cua con tro
         y = Convert.ToInt32(jsonData["yCor"]);
+		limit = Convert.ToDouble (jsonData["limit"]);		//Doc gia tri time limit
         max = Convert.ToInt32(jsonData["max"]);     //Doc gia tri MAX
 
         var rawDict = (Dictionary<string, object>)Json.Deserialize(jsonString);
