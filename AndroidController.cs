@@ -5,15 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class AndroidController : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-
-	}
-
 	void _LoadBackMenu()
 	{
-		float fadeTime = GameObject.Find ("Canvas").GetComponents<Fade>.BeginFade (1);
-		yield return new WaitForSeconds (fadeTime);
+//		float fadeTime = GameObject.Find ("Canvas").GetComponents<Fade>.BeginFade (1);
+//		yield return new WaitForSeconds (fadeTime);
 		SceneManager.LoadScene (0);
 	}
 
