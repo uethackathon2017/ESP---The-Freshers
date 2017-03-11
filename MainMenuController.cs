@@ -23,6 +23,7 @@ public class MainMenuController : MonoBehaviour {
         if (instance == null) 
 			instance = this;
 		Application.targetFrameRate = 30;		//Co dinh FPS 30
+		QualitySettings.vSyncCount = 2;
     }
 
 
@@ -32,7 +33,7 @@ public class MainMenuController : MonoBehaviour {
     {
         stepRemaining = 5;
 		Time.timeScale = 1;
-        SceneManager.LoadScene(1);
+		SceneManager.LoadScene (1);
     }
 
     public void _settingButton()

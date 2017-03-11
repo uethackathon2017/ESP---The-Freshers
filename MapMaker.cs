@@ -48,6 +48,7 @@ public class MapMaker : MonoBehaviour {
         _makeInstance();
 
 		Application.targetFrameRate = 30;		//Co dinh FPS bang 30
+		QualitySettings.vSyncCount = 2;
 
     }
 
