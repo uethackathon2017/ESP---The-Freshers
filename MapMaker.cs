@@ -84,7 +84,6 @@ public class MapMaker : MonoBehaviour {
                isChecked = true;
                gameOverPanel.SetActive(true);
                HighScore.instance._PushHighScore(countLevel);
-               Time.timeScale = 0;
            }
     }
 

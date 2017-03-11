@@ -39,9 +39,8 @@ public class LevelController : MonoBehaviour {
 
     public void _gameOverButton()
     {
-        MapMaker.instance.gameOverPanel.SetActive(false);
-        Time.timeScale = 1;
         SceneManager.LoadScene(0);
+		//Time.timeScale = 1;
     }
 
 
