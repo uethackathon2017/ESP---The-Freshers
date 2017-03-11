@@ -51,7 +51,7 @@ public class HighScore : MonoBehaviour {
     public void _SetHighScore()
     {
         PlayerPrefs.SetInt(BEST, highScore[0]);
-        int n = PlayerPrefs.GetInt(BEST);
+        //int n = PlayerPrefs.GetInt(BEST);
         PlayerPrefs.SetInt(SECOND, highScore[1]);
         PlayerPrefs.SetInt(THIRD, highScore[2]);
     }
