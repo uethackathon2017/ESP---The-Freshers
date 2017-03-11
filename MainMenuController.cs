@@ -8,12 +8,30 @@ public class MainMenuController : MonoBehaviour {
     //[SerializeField]
     //private GameObject playButton,leaderBoardButton,settingButton,instructionButton;
 
+
+    public static MainMenuController instance;
+    public int stepRemaining;
+
     [SerializeField]
     private GameObject mainPanel,instructionPanel;
 
 
+
+
+    private void Awake()
+    {
+        if (instance == null) 
+			instance = this;
+		Application.targetFrameRate = 30;		//Co dinh FPS 30
+    }
+
+
+
+
     public void _playButton()
     {
+        stepRemaining = 5;
+		Time.timeScale = 1;
         SceneManager.LoadScene(1);
     }
 
