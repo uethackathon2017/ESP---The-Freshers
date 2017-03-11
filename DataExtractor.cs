@@ -4,12 +4,15 @@ using UnityEngine;
 using MiniJSON;
 using System;
 using UnityEngine.UI;
+using System.IO;
 
 public class DataExtractor : MonoBehaviour {
 
     public static DataExtractor instance;
 
 	public int[,] map = new int [4, 4];     // Cái mảng này này ông nhõi 
+
+	public int[] highScoreBoard = new int[3];
 
     public int x = 0, y = 0, max = 0;    // Toa do ban dau cua con tro va gia tri MAX
 
@@ -46,4 +49,25 @@ public class DataExtractor : MonoBehaviour {
             }
         }
     }
+	public void InitHighScore()
+	{
+		int i;
+		string jsonHighScore = Resources.Load<TextAsset> ("highScore").text;
+		var highScoreData = Json.Deserialize (jsonHighScore) as Dictionary<string, object>;
+		for (i = 0; i < 3; i++) 
+		{
+			highScoreBoard [i] = Convert.ToInt32 (highScoreData ["highScore" + i]);
+		}
+	}
+	public void PushHighScore(int[] arr)
+	{
+		Dictionary<string, int> data = new Dictionary<string, int>()
+		{
+			{"highScore1",arr[0]},
+			{"highScore2",arr[1]},
+			{"highScore3",arr[2]}
+		};
+		var jsonFile = Json.Serialize (data);
+		File.WriteAllText ("highScore.json", jsonFile);
+	}
 }
