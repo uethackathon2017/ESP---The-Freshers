@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DentedPixel;
-public class MapMaker : MonoBehaviour {
+public class MapMaker : MonoBehaviour
+{
 
     [SerializeField]
     private AudioSource audioSource;
@@ -12,77 +13,91 @@ public class MapMaker : MonoBehaviour {
 
     public int countLevel = 1;
     public static MapMaker instance;
-    private bool isMoving,isChecked;
-	[SerializeField]
-	private GameObject pointer;
+    private bool isMoving, isChecked;
+    [SerializeField]
+    private GameObject pointer;
 
     public GameObject levelPassedPanel;
 
-	public List<Text> listText = new List<Text>();
+    public List<Text> listText = new List<Text>();
 
-	public int[,] map ;
+    public int[,] map;
 
-	private int x = 0, y = 0,pos = 0;
+    private int x = 0, y = 0, pos = 0;
 
-	private Vector3 temp;
+    private Vector3 temp;
 
-	public List<GameObject> row = new List<GameObject> ();
+    public List<GameObject> row = new List<GameObject>();
 
-    public Text levelPassedText, scoreText;
+    public Text levelPassedText, scoreText, timeText;
 
     public GameObject gameOverPanel;
 
     bool gameOver = true;
 
-	void Awake(){
-		if (DataExtractor.instance != null) {
-			DataExtractor.instance._ReadJSON (countLevel);
-			x = DataExtractor.instance.x;
-			y = DataExtractor.instance.y;
-			map = DataExtractor.instance.map;
-			pointer.transform.position = row [x * 4 + y].transform.position;
-			pos = x + y;
-		}
-		if (DataExtractor.instance != null) {
-			DataExtractor.instance._ReadJSON (countLevel);
-			_BuildMap (map);
-		}
+    double timeLimit;
+
+    void Awake()
+    {
+        if (DataExtractor.instance != null)
+        {
+            DataExtractor.instance._ReadJSON(countLevel);
+            x = DataExtractor.instance.x;
+            y = DataExtractor.instance.y;
+            map = DataExtractor.instance.map;
+            timeLimit = DataExtractor.instance.limit;
+            timeText.gameObject.SetActive(true);
+            pointer.transform.position = row[x * 4 + y].transform.position;
+            pos = x + y;
+        }
+        if (DataExtractor.instance != null)
+        {
+            DataExtractor.instance._ReadJSON(countLevel);
+            _BuildMap(map);
+        }
         _makeInstance();
         if (HighScore.instance != null)
         {
             HighScore.instance._GetHighScore();
         }
-		Application.targetFrameRate = 30;		//Co dinh FPS bang 30
-
+        Application.targetFrameRate = 30;		//Co dinh FPS bang 30
     }
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         isMoving = false;
         isChecked = false;
-	}
-	// Update is called once per frame
-	void Update () {
-		BoxController.instance._SwipeDetect ();
-		_MoveBox (BoxController.instance.status);
-        levelPassedText.text = "Level " + (countLevel-1) + " Passed";
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        timeLimit -= Time.deltaTime;
+        //timeText.text = "Time left: " + (int)timeLimit;
+        timeText.text = "Time left\n" + string.Format("{0:0.00}", timeLimit);
+        BoxController.instance._SwipeDetect();
+        _MoveBox(BoxController.instance.status);
+        levelPassedText.text = "Level " + (countLevel - 1) + " Passed";
         if (LevelController.instance._checkendgame() == 1)
         {
             levelPassedPanel.SetActive(true);
+            //timeText.gameObject.SetActive(false);
             Time.timeScale = 0;
             audioSource.PlayOneShot(passLevelClip);
-     
+
             countLevel += 1;
             DataExtractor.instance._ReadJSON(countLevel);
             x = DataExtractor.instance.x;
             y = DataExtractor.instance.y;
             map = DataExtractor.instance.map;
+            timeLimit = DataExtractor.instance.limit;
+            timeText.gameObject.SetActive(true);
             pointer.transform.position = row[x * 4 + y].transform.position;
             pos = x + y;
             _BuildMap(map);
         }
 
-        if (ScoreController.instance != null && ScoreController.instance.stepRemaining == 0 && isChecked == false)
+        if (timeLimit <= 0 || ScoreController.instance != null && ScoreController.instance.stepRemaining == 0 && isChecked == false)
         {
             isChecked = true;
             if (gameOver) audioSource.PlayOneShot(gameOverClip);
@@ -142,34 +157,34 @@ public class MapMaker : MonoBehaviour {
                 }
             case 3:
                 {
-                    if (x>0)
-                    if (!isMoving)
-                    {
-                        isMoving = true;
-                        LeanTween.move(pointer, row[pos - 4].transform.position, .1f).setOnComplete(() =>
+                    if (x > 0)
+                        if (!isMoving)
                         {
-                            isMoving = false;
-                            x--;
-                            _ChangeNumber(x, y);
-                            audioSource.PlayOneShot(swipeClip);
-                        });// nho doan nay
-                    }
+                            isMoving = true;
+                            LeanTween.move(pointer, row[pos - 4].transform.position, .1f).setOnComplete(() =>
+                            {
+                                isMoving = false;
+                                x--;
+                                _ChangeNumber(x, y);
+                                audioSource.PlayOneShot(swipeClip);
+                            });// nho doan nay
+                        }
                     break;
                 }
             case 4:
                 {
-                    if(x<3)
-                    if (!isMoving)
-                    {
-                        isMoving = true;
-                        LeanTween.move(pointer, row[pos + 4].transform.position, .1f).setOnComplete(() =>
+                    if (x < 3)
+                        if (!isMoving)
                         {
-                            isMoving = false;
-                            x++; ;
-                            _ChangeNumber(x, y);
-                            audioSource.PlayOneShot(swipeClip);
-                        });// nho doan nay
-                    }
+                            isMoving = true;
+                            LeanTween.move(pointer, row[pos + 4].transform.position, .1f).setOnComplete(() =>
+                            {
+                                isMoving = false;
+                                x++; ;
+                                _ChangeNumber(x, y);
+                                audioSource.PlayOneShot(swipeClip);
+                            });// nho doan nay
+                        }
                     break;
                 }
         }
@@ -177,29 +192,30 @@ public class MapMaker : MonoBehaviour {
     }
 
     void _Add(Text text, int num)
-	{
-		text.text = "" + num;
-	}
+    {
+        text.text = "" + num;
+    }
 
-	public void _BuildMap(int[,] imap)
-	{
-		int i, j;
-		i = 0;
-		j = 0;
-		foreach (Text text in listText)
-		{
-			_Add(text, imap[i, j]);  //Add l?n lu?t theo th? t? t? tr�i qua ph?i, t? tr�n xu?ng du?i
-			if (j == 3)
-			{
-				i++;
-				j = 0;
-			}
-			else
-				j++;
-		}
-	}
-	void _ChangeNumber(int x,int y){
-		map [x, y]++;
-		listText [x * 4 + y].text = "" + map [x, y];
-	}
+    public void _BuildMap(int[,] imap)
+    {
+        int i, j;
+        i = 0;
+        j = 0;
+        foreach (Text text in listText)
+        {
+            _Add(text, imap[i, j]);  //Add l?n lu?t theo th? t? t? tr�i qua ph?i, t? tr�n xu?ng du?i
+            if (j == 3)
+            {
+                i++;
+                j = 0;
+            }
+            else
+                j++;
+        }
+    }
+    void _ChangeNumber(int x, int y)
+    {
+        map[x, y]++;
+        listText[x * 4 + y].text = "" + map[x, y];
+    }
 }
