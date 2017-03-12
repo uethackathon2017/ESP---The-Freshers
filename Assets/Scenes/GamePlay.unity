@@ -1382,7 +1382,7 @@ GameObject:
   - component: {fileID: 772970368}
   - component: {fileID: 772970367}
   m_Layer: 5
-  m_Name: Text
+  m_Name: RanOutLive
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2044,6 +2044,80 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1085891875}
+--- !u!1 &1108501520
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1108501521}
+  - component: {fileID: 1108501523}
+  - component: {fileID: 1108501522}
+  m_Layer: 5
+  m_Name: RanOutTime
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1108501521
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1108501520}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.99982226, y: 0.99982226, z: 0.99982226}
+  m_Children: []
+  m_Father: {fileID: 2120845152}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.0012727261, y: 74.49967}
+  m_SizeDelta: {x: 629, y: 184}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1108501522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1108501520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 8aec4057ffe72eb49afd9fcb310018b5, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 7
+    m_MaxSize: 117
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'You ran out of time ! '
+--- !u!222 &1108501523
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1108501520}
 --- !u!1 &1120314707
 GameObject:
   m_ObjectHideFlags: 0
@@ -4411,10 +4485,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 2073563621}
-  swipeClip: {fileID: 8300000, guid: 4c17baed93bdf624da80af8ecdb77dc2, type: 3}
+  swipeClip: {fileID: 8300000, guid: d5c9b4a2d67222e42b64e6d17f44c42a, type: 3}
   passLevelClip: {fileID: 8300000, guid: 9a3a91532509414479417b48fbc3d95a, type: 3}
   gameOverClip: {fileID: 8300000, guid: 3046bcbdf9be4f14198c383f0a147500, type: 3}
-  countLevel: 1
+  countLevel: 27
   pointer: {fileID: 2125527338}
   levelPassedPanel: {fileID: 738007156}
   listText:
@@ -4454,6 +4528,8 @@ MonoBehaviour:
   levelPassedText: {fileID: 2016710787}
   scoreText: {fileID: 1914723416}
   timeText: {fileID: 2008841273}
+  ranOutTime: {fileID: 1108501522}
+  ranOutLive: {fileID: 772970367}
   gameOverPanel: {fileID: 2120845151}
 --- !u!114 &2073563618
 MonoBehaviour:
@@ -4694,6 +4770,7 @@ RectTransform:
   - {fileID: 772970366}
   - {fileID: 1914723415}
   - {fileID: 1085891876}
+  - {fileID: 1108501521}
   m_Father: {fileID: 1405642574}
   m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

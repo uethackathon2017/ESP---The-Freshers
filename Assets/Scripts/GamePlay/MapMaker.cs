@@ -29,7 +29,7 @@ public class MapMaker : MonoBehaviour
 
     public List<GameObject> row = new List<GameObject>();
 
-    public Text levelPassedText, scoreText, timeText;
+    public Text levelPassedText, scoreText, timeText, ranOutTime, ranOutLive;
 
     public GameObject gameOverPanel;
 
@@ -78,7 +78,7 @@ public class MapMaker : MonoBehaviour
         BoxController.instance._SwipeDetect();
         _MoveBox(BoxController.instance.status);
         levelPassedText.text = "Level " + (countLevel - 1) + " Passed";
-        if (LevelController.instance._checkendgame() == 1)
+        if (LevelController.instance._checkendgame() == 1 && timeLimit > 0.05f)
         {
             levelPassedPanel.SetActive(true);
             //timeText.gameObject.SetActive(false);
@@ -97,12 +97,22 @@ public class MapMaker : MonoBehaviour
             _BuildMap(map);
         }
 
-        if (timeLimit <= 0 || ScoreController.instance != null && ScoreController.instance.stepRemaining == 0 && isChecked == false)
+		if ((timeLimit <= 0 || ScoreController.instance != null && ScoreController.instance.stepRemaining == 0) && isChecked == false)
         {
             isChecked = true;
             if (gameOver) audioSource.PlayOneShot(gameOverClip);
             gameOver = false;
             gameOverPanel.SetActive(true);
+            if (ScoreController.instance.stepRemaining <= 0)
+            {
+                ranOutLive.gameObject.SetActive(true);
+                ranOutTime.gameObject.SetActive(false);
+            }
+            else
+            {
+                ranOutLive.gameObject.SetActive(false);
+                ranOutTime.gameObject.SetActive(true);
+            }
             scoreText.text = "Score: " + (countLevel - 1);
             HighScore.instance._PushHighScore(countLevel);
         }
